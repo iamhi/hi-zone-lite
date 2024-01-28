@@ -31,5 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+application-database.properties
 config/src/main/resources/application-database.properties
 nohup.out
