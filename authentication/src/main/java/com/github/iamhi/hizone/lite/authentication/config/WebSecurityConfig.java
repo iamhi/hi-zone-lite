@@ -69,13 +69,10 @@ public class WebSecurityConfig {
 
                 return corsConfiguration;
             }))
-	/*
             .csrf(customizer -> customizer.csrfTokenRequestHandler(requestHandler)
-                .ignoringRequestMatchers("/")
+                .ignoringRequestMatchers("/*")
                 .csrfTokenRepository(new CookieCsrfTokenRepository())
             )
-	*/
-            .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(customizer ->
                 customizer.requestMatchers(NOT_AUTHORIZE_PATHS)
                     .permitAll()
