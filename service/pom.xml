@@ -42,6 +42,7 @@
     </dependencies>
 
     <build>
+        <finalName>hi-zone-lite-service</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

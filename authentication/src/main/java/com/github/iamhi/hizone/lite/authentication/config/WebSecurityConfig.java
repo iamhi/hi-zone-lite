@@ -34,12 +34,6 @@ public class WebSecurityConfig {
 //        "/v3/**"
     };
 
-//    private final UserCacheSupplier userCacheSupplier;
-
-    private String JWT_KEY = "JJWT_KEYJWT_KEYJWT_KEYJWT_KEYJWT_KEYWT_KEY";
-
-    private String JWT_HEADER = "Authorization";
-
     private final LiteUserDetailsService liteUserDetailsService;
 
     @Bean
@@ -57,13 +51,14 @@ public class WebSecurityConfig {
 
         http
             .securityContext(context -> context.requireExplicitSave(false)) // investigate what this does
-//            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-//            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 //            .cors(AbstractHttpConfigurer::disable)
             .cors(customizer -> customizer.configurationSource(request -> {
                 CorsConfiguration corsConfiguration = new CorsConfiguration();
 
                 corsConfiguration.setAllowedOrigins(List.of(
+                    "https://www.ibeenhi.com/",
+                    "https://api.ibeenhi.com/",
                     "http://127.0.0.1:8088",
                     "http://localhost:8088"));
                 corsConfiguration.setAllowedMethods(List.of("*"));
@@ -74,7 +69,6 @@ public class WebSecurityConfig {
 
                 return corsConfiguration;
             }))
-            .csrf(AbstractHttpConfigurer::disable)
             .csrf(customizer -> customizer.csrfTokenRequestHandler(requestHandler)
                 .ignoringRequestMatchers("/")
                 .csrfTokenRepository(new CookieCsrfTokenRepository())
@@ -86,7 +80,6 @@ public class WebSecurityConfig {
                     .fullyAuthenticated()
             )
             .userDetailsService(liteUserDetailsService)
-//            .userDetailsService(hubUserDetailsService)
             .oauth2ResourceServer(customizer -> customizer.jwt(Customizer.withDefaults()))
             .httpBasic(Customizer.withDefaults())
             .formLogin(Customizer.withDefaults())
