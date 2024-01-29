@@ -11,6 +11,10 @@ import org.springframework.context.annotation.Configuration;
         @Server(
             url = "http://127.0.0.1:8082/hi-zone-api/lite",
             description = "Local variant"
+        ),
+        @Server(
+            url = "https://api.ibeenhi.com/hi-zone-api/lite",
+            description = "IBeenHi Api variant"
         )
     })
 public class SwaggerConfig {
