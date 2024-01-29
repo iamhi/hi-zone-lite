@@ -34,8 +34,8 @@ record UserServiceImpl(
     }
 
     @Override
-    public Optional<UserDto> findByUsername(String username) {
-        return userRepository.findByUsername(username).map(this::mapEntityToDto);
+    public Optional<InternalUserDto> findByUsername(String username) {
+        return userRepository.findByUsername(username).map(this::mapEntityToInternalDto);
     }
 
     @Override
@@ -60,6 +60,19 @@ record UserServiceImpl(
         userEntity.setUpdatedAt(Instant.now());
 
         return userEntity;
+    }
+
+    private InternalUserDto mapEntityToInternalDto(UserEntity userEntity) {
+        return new InternalUserDto(
+            userEntity.getUuid(),
+            userEntity.getUsername(),
+            userEntity.getPassword(),
+            userEntity.getName(),
+            userEntity.getEmail(),
+            Arrays.stream(StringUtils.defaultString(userEntity.getRoles()).split(",")).toList(),
+            userEntity.getCreatedAt(),
+            userEntity.getUpdatedAt()
+        );
     }
 
     private UserDto mapEntityToDto(UserEntity userEntity) {

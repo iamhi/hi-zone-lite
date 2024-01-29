@@ -1,9 +1,11 @@
 package com.github.iamhi.hizone.lite.authentication.config;
 
+import com.github.iamhi.hizone.lite.authentication.core.InternalUserDto;
 import com.github.iamhi.hizone.lite.authentication.core.UserService;
 import com.github.iamhi.hizone.lite.authentication.domain.UserDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Internal;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -25,19 +27,19 @@ public class LiteUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserDto> optionalUserDto = userService.findByUsername(username);
+        Optional<InternalUserDto> optionalUserDto = userService.findByUsername(username);
 
         if (optionalUserDto.isPresent()) {
-            UserDto userDto = optionalUserDto.get();
+            InternalUserDto internalUserDto = optionalUserDto.get();
 
-            List<SimpleGrantedAuthority> grantedAuthorities = userDto.roles().stream()
+            List<SimpleGrantedAuthority> grantedAuthorities = internalUserDto.roles().stream()
                 .map(SimpleGrantedAuthority::new).toList();
 
             return new LiteUser(
                 username,
-                "",
+                internalUserDto.password(),
                 grantedAuthorities,
-                userDto
+                internalUserDto.toUserDto()
             );
         }
 

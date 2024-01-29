@@ -12,7 +12,7 @@ public interface UserService {
         String email
     );
 
-    Optional<UserDto> findByUsername(
+    Optional<InternalUserDto> findByUsername(
         String username
     );
 

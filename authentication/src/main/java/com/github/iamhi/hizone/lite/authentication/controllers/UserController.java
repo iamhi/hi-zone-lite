@@ -3,6 +3,7 @@ package com.github.iamhi.hizone.lite.authentication.controllers;
 import com.github.iamhi.hizone.lite.authentication.controllers.requests.UserRegisterRequest;
 import com.github.iamhi.hizone.lite.authentication.controllers.responses.UserResponse;
 import com.github.iamhi.hizone.lite.authentication.core.UserService;
+import com.github.iamhi.hizone.lite.authentication.domain.MemberCache;
 import com.github.iamhi.hizone.lite.authentication.domain.UserDto;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/authentication/user")
 public record UserController(
-    UserService userService
+    UserService userService,
+    MemberCache memberCache
 ) {
 
     @PostMapping

@@ -1,8 +1,14 @@
 package com.github.iamhi.hizone.lite.authentication.config;
 
+import com.github.iamhi.hizone.lite.authentication.core.EmptyMemberCacheImpl;
+import com.github.iamhi.hizone.lite.authentication.core.MemberCacheImpl;
+import com.github.iamhi.hizone.lite.authentication.domain.MemberCache;
+import com.github.iamhi.hizone.lite.authentication.domain.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,12 +17,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Configuration
 @EnableWebSecurity
@@ -87,5 +99,30 @@ public class WebSecurityConfig {
         ;
 
         return http.build();
+    }
+
+    @Bean
+    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    MemberCache memberCache() {
+        Optional<UserDto> optionalUserDto = getUserDtoFromAuthentication();
+
+        if (optionalUserDto.isPresent()) {
+           return new MemberCacheImpl(optionalUserDto.get());
+        }
+
+        return new EmptyMemberCacheImpl();
+    }
+
+    private Optional<UserDto> getUserDtoFromAuthentication() {
+        return Optional.ofNullable(SecurityContextHolder.getContext())
+            .map(SecurityContext::getAuthentication)
+            .map(Authentication::getPrincipal)
+            .map(liteUserPrincipal -> {
+                if (liteUserPrincipal instanceof LiteUserDetailsService.LiteUser liteUser) {
+                    return liteUser.getUserDto();
+                }
+
+                return null;
+            });
     }
 }
