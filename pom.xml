@@ -17,10 +17,10 @@
     <modules>
         <module>authentication</module>
 		<module>service</module>
-        <module>shared</module>
 		<module>config</module>
 		<module>domain</module>
-	</modules>
+        <module>notes</module>
+    </modules>
     <properties>
 		<java.version>21</java.version>
 	</properties>

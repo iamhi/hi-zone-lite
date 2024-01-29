@@ -31,12 +31,12 @@
         </dependency>
         <dependency>
             <groupId>com.github.iamhi.hizone.lite</groupId>
-            <artifactId>shared</artifactId>
+            <artifactId>authentication</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.iamhi.hizone.lite</groupId>
-            <artifactId>authentication</artifactId>
+            <artifactId>notes</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

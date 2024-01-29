@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>com.github.iamhi.hizone.lite</groupId>
-    <artifactId>shared</artifactId>
+    <artifactId>notes</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -18,4 +18,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.github.iamhi.hizone.lite</groupId>
+            <artifactId>config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.iamhi.hizone.lite</groupId>
+            <artifactId>domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>
