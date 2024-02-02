@@ -71,8 +71,8 @@ public class WebSecurityConfig {
                 corsConfiguration.setAllowedOrigins(List.of(
                     "https://www.ibeenhi.com/",
                     "https://api.ibeenhi.com/",
-                    "http://127.0.0.1:8088",
-                    "http://localhost:8088"));
+                    "http://127.0.0.1:8082",
+                    "http://localhost:8082"));
                 corsConfiguration.setAllowedMethods(List.of("*"));
                 corsConfiguration.setAllowCredentials(true);
                 corsConfiguration.setAllowedHeaders(List.of(("*")));

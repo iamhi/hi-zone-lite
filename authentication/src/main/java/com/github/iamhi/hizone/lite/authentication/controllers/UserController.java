@@ -1,7 +1,9 @@
 package com.github.iamhi.hizone.lite.authentication.controllers;
 
+import com.github.iamhi.hizone.lite.authentication.controllers.requests.UserAddRoleRequest;
 import com.github.iamhi.hizone.lite.authentication.controllers.requests.UserRegisterRequest;
 import com.github.iamhi.hizone.lite.authentication.controllers.responses.UserResponse;
+import com.github.iamhi.hizone.lite.authentication.core.UserRoleService;
 import com.github.iamhi.hizone.lite.authentication.core.UserService;
 import com.github.iamhi.hizone.lite.authentication.domain.MemberCache;
 import com.github.iamhi.hizone.lite.authentication.domain.UserDto;
@@ -26,6 +28,12 @@ public record UserController(
             registerRequest.password(),
             registerRequest.email()
         ).map(this::generateResponse);
+    }
+
+    @PostMapping("/role")
+    public Optional<UserResponse> addRoles(@RequestBody UserAddRoleRequest request) {
+        return userService.addRole(request.role(),
+            request.rolePassword()).map(this::generateResponse);
     }
 
     private UserResponse generateResponse(UserDto userDto) {

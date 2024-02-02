@@ -32,6 +32,9 @@ public class NoteEntity {
     @Column(name = "owner_uuid")
     private String ownerUuid;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "content")
     private String content;
 

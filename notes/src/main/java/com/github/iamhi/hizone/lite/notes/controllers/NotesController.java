@@ -29,12 +29,12 @@ public record NotesController(
 
     @PostMapping
     public Optional<NoteDto> createNote(@RequestBody CreateNoteRequest request) {
-        return notesService.createMyNote(request.content());
+        return notesService.createMyNote(request.title(), request.content());
     }
 
     @PutMapping("/{uuid}")
     public Optional<NoteDto> updateNote(@PathVariable String uuid, @RequestBody UpdateNoteRequest request) {
-       return notesService.updateMyNote(uuid, request.content());
+       return notesService.updateMyNote(uuid, request.title(), request.content());
     }
 
     @DeleteMapping("/{uuid}")

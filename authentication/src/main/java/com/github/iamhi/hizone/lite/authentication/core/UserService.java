@@ -16,6 +16,11 @@ public interface UserService {
         String username
     );
 
+    Optional<UserDto> addRole(
+        String role,
+        String rolePassword
+    );
+
     boolean attemptUserLogin(
         String username,
         String password

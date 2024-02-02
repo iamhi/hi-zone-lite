@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.7.xsd">
+    <changeSet id="notes-1.1_0" author="IamHi">
+        <dropUniqueConstraint
+                tableName="notes"
+                uniqueColumns="owner_uuid"
+                constraintName="notes_owner_uuid_key" />
+    </changeSet>
+
+    <changeSet id="notes-1.1_1" author="IamHi">
+        <addColumn tableName="notes">
+            <column name="title" type="VARCHAR(255)" />
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

@@ -5,11 +5,11 @@ import java.util.Optional;
 
 public interface NotesService {
 
-    Optional<NoteDto> createMyNote(String content);
+    Optional<NoteDto> createMyNote(String title, String content);
 
     List<NoteDto> getMyNotes();
 
-    Optional<NoteDto> updateMyNote(String uuid, String content);
+    Optional<NoteDto> updateMyNote(String uuid, String title, String content);
 
     Optional<NoteDto> deleteMyNote(String uuid);
 }

@@ -19,6 +19,7 @@ public record NotesServiceImpl(
     static NoteDto mapEntityToDto(NoteEntity noteEntity) {
         return new NoteDto(
             noteEntity.getUuid(),
+            noteEntity.getTitle(),
             noteEntity.getContent(),
             noteEntity.getCreatedAt(),
             noteEntity.getUpdatedAt()
@@ -26,10 +27,11 @@ public record NotesServiceImpl(
     }
 
     @Override
-    public Optional<NoteDto> createMyNote(String content) {
+    public Optional<NoteDto> createMyNote(String title, String content) {
         NoteEntity noteEntity = generateEmptyEntity();
 
         noteEntity.setOwnerUuid(memberCache.getUserUuid());
+        noteEntity.setTitle(title);
         noteEntity.setContent(content);
 
         return Optional.of(mapEntityToDto(noteRepository.save(noteEntity)));
@@ -44,12 +46,13 @@ public record NotesServiceImpl(
     }
 
     @Override
-    public Optional<NoteDto> updateMyNote(String uuid, String content) {
+    public Optional<NoteDto> updateMyNote(String uuid, String title, String content) {
         Optional<NoteEntity> optionalNoteEntity = noteRepository.findByUuid(uuid);
 
         if (optionalNoteEntity.isPresent()) {
             NoteEntity noteEntity = optionalNoteEntity.get();
 
+            noteEntity.setTitle(title);
             noteEntity.setContent(content);
             noteEntity.setUpdatedAt(Instant.now());
 
@@ -63,15 +66,11 @@ public record NotesServiceImpl(
     public Optional<NoteDto> deleteMyNote(String uuid) {
         Optional<NoteEntity> optionalNoteEntity = noteRepository.findByUuid(uuid);
 
-        if (optionalNoteEntity.isPresent()) {
-            NoteEntity noteEntity = optionalNoteEntity.get();
-            NoteDto noteDto = NotesServiceImpl.mapEntityToDto(noteEntity);
+        return optionalNoteEntity.map(entity -> {
+            noteRepository.delete(entity);
 
-            noteRepository.delete(noteEntity);
-
-            return Optional.of(noteDto);
-        }
-        return Optional.empty();
+            return entity;
+        }).map(NotesServiceImpl::mapEntityToDto);
     }
 
     private NoteEntity generateEmptyEntity() {
