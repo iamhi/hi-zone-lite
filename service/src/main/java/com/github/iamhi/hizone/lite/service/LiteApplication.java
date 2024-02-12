@@ -14,11 +14,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = {
 	"com.github.iamhi.hizone.lite.authentication.database",
 	"com.github.iamhi.hizone.lite.notes.database",
+	"com.github.iamhi.hizone.lite.messagebox.database",
 //	"com.github.iamhi.hizone.hub.app.planner.core.entryservice"
 })
 @EntityScan(basePackages = {
 	"com.github.iamhi.hizone.lite.authentication.database",
 	"com.github.iamhi.hizone.lite.notes.database",
+	"com.github.iamhi.hizone.lite.messagebox.database",
 //	"com.github.iamhi.hizone.hub.app.planner.core.entryservice"
 })
 public class LiteApplication {

@@ -20,6 +20,7 @@
 		<module>config</module>
 		<module>domain</module>
         <module>notes</module>
+        <module>messagebox</module>
     </modules>
     <properties>
 		<java.version>21</java.version>

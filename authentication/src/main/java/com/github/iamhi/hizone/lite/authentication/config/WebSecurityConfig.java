@@ -64,7 +64,7 @@ public class WebSecurityConfig {
         http
             .securityContext(context -> context.requireExplicitSave(false)) // investigate what this does
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-            .cors(AbstractHttpConfigurer::disable)
+//            .cors(AbstractHttpConfigurer::disable)
             .cors(customizer -> customizer.configurationSource(request -> {
                 CorsConfiguration corsConfiguration = new CorsConfiguration();
 
@@ -81,10 +81,10 @@ public class WebSecurityConfig {
 
                 return corsConfiguration;
             }))
-//            .csrf(customizer -> customizer.csrfTokenRequestHandler(requestHandler)
-//                .ignoringRequestMatchers("/*")
-//                .csrfTokenRepository(new CookieCsrfTokenRepository())
-//            )
+            .csrf(customizer -> customizer.csrfTokenRequestHandler(requestHandler)
+                .ignoringRequestMatchers("/*")
+                .csrfTokenRepository(new CookieCsrfTokenRepository())
+            )
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(customizer ->
                 customizer.requestMatchers(NOT_AUTHORIZE_PATHS)

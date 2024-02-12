@@ -1,8 +1,8 @@
 package com.github.iamhi.hizone.lite.authentication.core;
 
+import com.github.iamhi.hizone.lite.authentication.domain.InvalidRoleException;
 import com.github.iamhi.hizone.lite.authentication.domain.MemberCache;
 import com.github.iamhi.hizone.lite.authentication.domain.UserDto;
-import org.springframework.stereotype.Component;
 
 public record MemberCacheImpl(
     UserDto userDto
@@ -16,5 +16,12 @@ public record MemberCacheImpl(
     @Override
     public String getUserUuid() {
         return userDto.uuid();
+    }
+
+    @Override
+    public void validateRole(String role) throws InvalidRoleException {
+        if (!userDto.roles().contains(role)) {
+           throw new InvalidRoleException(role);
+        }
     }
 }
